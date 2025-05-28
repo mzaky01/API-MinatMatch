@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('./models/users'); // Pastikan import dari models/users.js
-require('./db'); // Pastikan koneksi ke database
+const User = require('./models/users'); 
+require('./db'); 
 
 const registerHandler = async (request, h) => {
   const { name, email, password } = request.payload;

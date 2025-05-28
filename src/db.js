@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Ganti nama database menjadi 'users' di URI
 const mongoUri = 'mongodb+srv://mzakyzr4:a0LmxEqjh6YD0DNw@minatmatch.xfi0saq.mongodb.net/data';
 
 mongoose.connect(mongoUri);
