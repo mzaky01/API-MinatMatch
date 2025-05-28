@@ -15,6 +15,14 @@ const routes = [
     path: '/login',
     handler: loginHandler
   },
+  //buat tes di awal
+  {
+    method: 'GET',
+    path: '/hello',
+    handler: (request, h) => {
+      return 'Hello, World!';
+    }
+  },
 ];
 
 module.exports = routes;
