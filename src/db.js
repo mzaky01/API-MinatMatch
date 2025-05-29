@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-const mongoUri = 'mongodb+srv://mzakyzr4:a0LmxEqjh6YD0DNw@minatmatch.xfi0saq.mongodb.net/data';
-
-mongoose.connect(mongoUri);
+console.log(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI);
+console.log('Connecting to MongoDB Atlas...');
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
