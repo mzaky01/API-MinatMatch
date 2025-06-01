@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dokumentasi API</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      line-height: 1.6;
+      background-color: #fff;
+    }
+
+    header,
+    section,
+    main,
+    footer {
+      margin-bottom: 2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h1,
+    h2 {
+      color: #2c3e50;
+    }
+
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+
+    code {
+      font-family: monospace;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Dokumentasi API</h1>
+  </header>
+
+  <main>
+    <article>
+      <h2>POST /register</h2>
+      <h3>Body</h3>
+      <pre><code>{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "123456"
+}
+</code></pre>
+
+      <h3>Respons Berhasil</h3>
+      <pre><code>{
+  "status": "success",
+  "message": "Registrasi berhasil"
+}</code></pre>
+    </article>
+
+    <article>
+      <h2>POST /login</h2>
+      <h3>Body</h3>
+      <pre><code>{
+  "email": "john@example.com",
+  "password": "123456"
+}</code></pre>
+
+      <h3>Respons Berhasil</h3>
+      <pre><code>{
+  "status": "success",
+  "data": {
+    "token": "jwt_token_here"
+  }
+}</code></pre>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 MinatMatch.Ai — Dokumentasi API.</p>
+  </footer>
+</body>
+
+</html>

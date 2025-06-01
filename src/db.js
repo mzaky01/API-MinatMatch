@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-const mongoUri = 'mongodb+srv://mzakyzr4:a0LmxEqjh6YD0DNw@minatmatch.xfi0saq.mongodb.net/data';
-
-mongoose.connect(mongoUri);
+mongoose.connect(process.env.MONGODB_URI);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
