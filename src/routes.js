@@ -1,7 +1,8 @@
-const { registerHandler, loginHandler } = require("./auth");
+const { registerHandler, loginHandler, authMiddleware } = require("./auth");
 
 const fs = require("fs");
 const path = require("path");
+const { predictCareer } = require("./utils/predict");
 
 const routes = [
   {
@@ -22,6 +23,14 @@ const routes = [
       const html = fs.readFileSync(filePath, "utf-8");
       return h.response(html).type("text/html");
     },
+  },
+  {
+    method: 'POST',
+    path: '/predict',
+    handler: predictCareer,
+    options: {
+      pre: [{ method: authMiddleware}] 
+    }
   },
 ];
 
