@@ -108,7 +108,7 @@ const loginHandler = async (request, h) => {
         .code(401);
     }
 
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET);
 
     return h
       .response({
