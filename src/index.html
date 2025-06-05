@@ -85,6 +85,74 @@
   }
 }</code></pre>
     </article>
+
+    <article>
+      <h2>GET /prediction-history</h2>
+      <h3>Header</h3>
+      <pre><code>Authorization: Bearer &lt;token&gt;</code></pre>
+      <h3>Respons Berhasil</h3>
+      <pre><code>{
+  "status": "success",
+  "data": [
+    {
+      "_id": "665f1b...",
+      "userId": "665f1a...",
+      "name": "John Doe",
+      "predictions": [
+        { "career": "Data Scientist", "probability": 0.45 },
+        { "career": "Web Developer", "probability": 0.32 },
+        { "career": "QA Engineer", "probability": 0.23 }
+      ],
+      "createdAt": "2025-06-05T10:00:00.000Z"
+    },
+    // ...data lain jika ada
+  ]
+}</code></pre>
+    </article>
+
+    <article>
+      <h2>DELETE /prediction-history</h2>
+      <h3>Header</h3>
+      <pre><code>Authorization: Bearer &lt;token&gt;</code></pre>
+      <h3>Respons Berhasil</h3>
+      <pre><code>{
+  "status": "success",
+  "message": "Riwayat prediksi berhasil dihapus"
+}</code></pre>
+    </article>
+
+    <article>
+      <h2>DELETE /prediction-history/{id}</h2>
+      <h3>Header</h3>
+      <pre><code>Authorization: Bearer &lt;token&gt;</code></pre>
+      <h3>Respons Berhasil</h3>
+      <pre><code>{
+  "status": "success",
+  "message": "Prediksi berhasil dihapus"
+}</code></pre>
+    </article>
+
+    <article>
+      <h2>POST /predict</h2>
+      <h3>Header</h3>
+      <pre><code>Authorization: Bearer &lt;token&gt;</code></pre>
+      <h3>Body</h3>
+      <pre><code>{
+  "name": "John Doe" 
+}</code></pre>
+      <h3>Respons Berhasil</h3>
+      <pre><code>{
+  "status": "success",
+  "data": {
+    "name": "John Doe",
+    "predictions": [
+      { "career": "Data Scientist", "probability": 0.45 },
+      { "career": "Web Developer", "probability": 0.32 },
+      { "career": "QA Engineer", "probability": 0.23 }
+    ]
+  }
+}</code></pre>
+    </article>
   </main>
 
   <footer>

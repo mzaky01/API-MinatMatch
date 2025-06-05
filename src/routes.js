@@ -3,6 +3,7 @@ const { registerHandler, loginHandler, authMiddleware } = require("./auth");
 const fs = require("fs");
 const path = require("path");
 const { predictCareer } = require("./utils/predict");
+const { predictionHistoryHandler, deletePredictionByIdHandler, deletePredictionHistoryHandler } = require("./prediction");
 
 const routes = [
   {
@@ -32,6 +33,30 @@ const routes = [
       pre: [{ method: authMiddleware}] 
     }
   },
+  {
+    method: "GET",
+    path: "/prediction-history",
+    handler: predictionHistoryHandler,
+    options: {
+      pre: [{ method: authMiddleware}]
+    }
+  } ,
+  {
+    method: "DELETE",
+    path: "/prediction-history",
+    handler: deletePredictionHistoryHandler,
+    options: {
+      pre: [{ method: authMiddleware}]
+    }
+  },
+  {
+    method: "DELETE",
+    path: "/prediction-history/{id}",
+    handler: deletePredictionByIdHandler,
+    options: {
+      pre: [{ method: authMiddleware}]
+    }
+  }
 ];
 
 module.exports = routes;

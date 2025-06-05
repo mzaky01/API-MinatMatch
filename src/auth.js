@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("./models/users");
 require("./db");
 require("dotenv").config();
+const Boom = require("@hapi/boom");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -129,40 +130,17 @@ const loginHandler = async (request, h) => {
 };
 
 const authMiddleware = (request, h) => {
+  const authHeader = request.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    throw Boom.unauthorized("Akses ditolak. Format token tidak sesuai");
+  }
+  const token = authHeader.split(" ")[1];
   try {
-    const authHeader = request.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return h
-        .response({
-          status: "fail",
-          message: "Akses ditolak. Format token tidak sesuai",
-        })
-        .code(401);
-    }
-
-    const token = authHeader.split(" ")[1];
-
-    try {
-      const decoded = jwt.verify(token, JWT_SECRET);
-      request.auth = decoded;
-      return h.continue;
-    } catch {
-      return h
-        .response({
-          status: "fail",
-          message: "Token tidak valid",
-        })
-        .code(401);
-    }
-  } catch (error) {
-    console.error("Error in authMiddleware:", error);
-    return h
-      .response({
-        status: "error",
-        message: "Terjadi kesalahan pada server",
-      })
-      .code(500);
+    const decoded = jwt.verify(token, JWT_SECRET);
+    request.auth = decoded;
+    return h.continue;
+  } catch {
+    throw Boom.unauthorized("Token tidak valid");
   }
 };
 
