@@ -1,4 +1,4 @@
-const { registerHandler, loginHandler, authMiddleware } = require("./auth");
+const { registerHandler, loginHandler, authMiddleware, changePasswordHandler, getProfileHandler, editProfileHandler, deleteAccountHandler } = require("./auth");
 
 const fs = require("fs");
 const path = require("path");
@@ -56,6 +56,45 @@ const routes = [
     options: {
       pre: [{ method: authMiddleware}]
     }
+  },
+  {
+    method: "POST",
+    path: "/change-password",
+    handler: changePasswordHandler,
+    options: {
+      pre: [{ method: authMiddleware }],
+    },
+  },
+  {
+    method: "GET",
+    path: "/profile",
+    handler: getProfileHandler,
+    options: {
+      pre: [{ method: authMiddleware }],
+    },
+  },
+  {
+    method: "PUT",
+    path: "/profile",
+    handler: editProfileHandler,
+    options: {
+      pre: [{ method: authMiddleware }],
+      payload: {
+        output: "stream",
+        parse: true,
+        allow: ["multipart/form-data"],
+        multipart: true,
+        maxBytes: 5 * 1024 * 1024, 
+      },
+    },
+  },
+  {
+    method: "DELETE",
+    path: "/account",
+    handler: deleteAccountHandler,
+    options: {
+      pre: [{ method: authMiddleware }],
+    },
   }
 ];
 

@@ -105,7 +105,6 @@
       ],
       "createdAt": "2025-06-05T10:00:00.000Z"
     },
-    // ...data lain jika ada
   ]
 }</code></pre>
     </article>
@@ -151,6 +150,68 @@
       { "career": "QA Engineer", "probability": 0.23 }
     ]
   }
+}</code></pre>
+    </article>
+
+    <article>
+      <h2>GET /profile</h2>
+      <h3>Header</h3>
+      <pre><code>Authorization: Bearer &lt;token&gt;</code></pre>
+      <h3>Respons Berhasil</h3>
+      <pre><code>{
+  "status": "success",
+  "data": {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "profilePic": "data:image/png;base64,..." // null jika belum upload gambar
+  }
+}</code></pre>
+    </article>
+
+    <article>
+      <h2>PUT /profile</h2>
+      <h3>Header</h3>
+      <pre><code>Authorization: Bearer &lt;token&gt;</code></pre>
+      <h3>Body (form-data)</h3>
+      <pre><code>name: John Doe (text)
+email: john@example.com (text)
+profilePic: file</code></pre>
+      <h3>Respons Berhasil</h3>
+      <pre><code>{
+  "status": "success",
+  "message": "Profil berhasil diubah",
+  "data": {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "profilePic": "data:image/png;base64,..."
+  }
+}</code></pre>
+    </article>
+
+    <article>
+      <h2>POST /change-password</h2>
+      <h3>Header</h3>
+      <pre><code>Authorization: Bearer &lt;token&gt;</code></pre>
+      <h3>Body</h3>
+      <pre><code>{
+  "oldPassword": "password_lama",
+  "newPassword": "password_baru"
+}</code></pre>
+      <h3>Respons Berhasil</h3>
+      <pre><code>{
+  "status": "success",
+  "message": "Password berhasil diubah"
+}</code></pre>
+    </article>
+
+    <article>
+      <h2>DELETE /account</h2>
+      <h3>Header</h3>
+      <pre><code>Authorization: Bearer &lt;token&gt;</code></pre>
+      <h3>Respons Berhasil</h3>
+      <pre><code>{
+  "status": "success",
+  "message": "Akun berhasil dihapus beserta semua datanya"
 }</code></pre>
     </article>
   </main>
