@@ -1,9 +1,10 @@
-const { registerHandler, loginHandler, authMiddleware, changePasswordHandler, getProfileHandler, editProfileHandler, deleteAccountHandler } = require("./auth");
-
+const { registerHandler, loginHandler } = require("./handlers/auth");
+const { authMiddleware } = require("./middlewares/auth-middleware");
+const { changePasswordHandler, getProfileHandler, editProfileHandler, deleteAccountHandler } = require("./handlers/profile");
 const fs = require("fs");
 const path = require("path");
 const { predictCareer } = require("./utils/predict");
-const { predictionHistoryHandler, deletePredictionByIdHandler, deletePredictionHistoryHandler } = require("./prediction");
+const { predictionHistoryHandler, deletePredictionByIdHandler, deletePredictionHistoryHandler } = require("./handlers/prediction");
 
 const routes = [
   {

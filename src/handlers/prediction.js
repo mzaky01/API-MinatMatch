@@ -1,4 +1,4 @@
-const Prediction = require("./models/prediction");
+const Prediction = require("../models/prediction");
 
 const predictionHistoryHandler = async (request, h) => {
   try {
