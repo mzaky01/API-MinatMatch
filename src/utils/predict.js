@@ -1,57 +1,118 @@
+const tf = require("@tensorflow/tfjs-node");
+const { preprocessInput } = require("./preprocess");
+const path = require("path");
 const Prediction = require("../models/prediction");
 
-const predictCareer = async (request, h) => {
-  const CLASS_NAMES = [
-    "Data Scientist",
-    "Software Engineer",
-    "AI Specialist",
-    "Web Developer",
-    "Database Admin",
-    "Cybersecurity Analyst",
-    "Game Developer",
-    "Network Engineer",
-    "Cloud Engineer",
-    "Mobile Developer",
-    "DevOps Engineer",
-    "System Analyst",
-    "UI/UX Designer",
-    "QA Engineer",
-    "Product Manager",
-    "Business Analyst",
-    "Technical Writer",
-  ];
+const CLASS_NAMES = [
+  "Data Scientist",
+  "Software Engineer",
+  "AI Specialist",
+  "Web Developer",
+  "Database Admin",
+  "Cybersecurity Analyst",
+  "Game Developer",
+  "Network Engineer",
+  "Cloud Engineer",
+  "Mobile Developer",
+  "DevOps Engineer",
+  "System Analyst",
+  "UI/UX Designer",
+  "QA Engineer",
+  "Product Manager",
+  "Business Analyst",
+  "Technical Writer",
+];
 
-  const indices = [];
-  while (indices.length < 3) {
-    const idx = Math.floor(Math.random() * CLASS_NAMES.length);
-    if (!indices.includes(idx)) indices.push(idx);
+let model;
+
+async function loadModel() {
+  try {
+    const modelPath = path.join(__dirname, "../models/tfjs_model/model.json");
+    model = await tf.loadLayersModel(`file://${modelPath}`);
+    console.log("Model loaded successfully");
+    return model;
+  } catch (err) {
+    console.error("Model loading error:", err);
+    throw err;
   }
+}
 
-  let probs = [Math.random(), Math.random(), Math.random()];
-  const total = probs.reduce((a, b) => a + b, 0);
-  probs = probs.map((p) => parseFloat((p / total).toFixed(4)));
+async function predictCareer(request, h) {
+  try {
+    if (!model) {
+      await loadModel();
+    }
 
-  const predictions = indices.map((idx, i) => ({
-    career: CLASS_NAMES[idx],
-    probability: probs[i],
-  }));
+    const requiredFields = [
+      "gender",
+      "age",
+      "gpa",
+      "interestedDomain",
+      "projects",
+      "datascience",
+      "database",
+      "programming",
+    ];
 
-  if (request.auth && request.auth.userId) {
-    await Prediction.create({
-      userId: request.auth.userId,
-      name: request.payload.name || "User",
-      predictions,
-    });
+    for (const field of requiredFields) {
+      if (request.payload[field] === undefined || request.payload[field] === null) {
+        return h
+          .response({
+            status: "fail",
+            message: `Field '${field}' harus diisi`,
+          })
+          .code(400);
+      }
+    }
+
+    // 1. Preprocessing
+    const features = preprocessInput(request.payload);
+    const inputTensor = tf.tensor2d([features], [1, 80]);
+
+    // 2. Prediction
+    const outputTensor = model.predict(inputTensor);
+    const predictions = Array.from(await outputTensor.data());
+
+    // 3. Clean up tensors
+    inputTensor.dispose();
+    outputTensor.dispose();
+
+    // 4. Format results
+    const results = predictions
+      .map((probability, index) => ({
+        career: CLASS_NAMES[index],
+        probability: parseFloat(probability.toFixed(4)),
+      }))
+      .sort((a, b) => b.probability - a.probability);
+      
+    if (request.auth && request.auth.userId) {
+      await Prediction.create({
+        userId: request.auth.userId,
+        name: request.payload.name || "User", 
+        predictions: results.slice(0, 3), 
+        inputData: request.payload, 
+      });
+    }
+
+    return h
+      .response({
+        status: "success",
+        data: {
+          name: request.payload.name || "User", 
+          predictions: results.slice(0, 3),
+        },
+      })
+      .code(200);
+  } catch (err) {
+    console.error("Prediction error:", err);
+    return h
+      .response({
+        status: "error",
+        message: "Failed to make prediction",
+        error: process.env.NODE_ENV === "development" ? err.message : undefined,
+      })
+      .code(500);
   }
+}
 
-  return h
-    .response({
-      status: "success",
-      data: { 
-        name: request.payload.name || "User",
-        predictions },
-    })
-    .code(200);
-};
-
-module.exports = { predictCareer };
+module.exports = { loadModel, predictCareer };
