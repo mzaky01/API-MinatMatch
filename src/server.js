@@ -1,5 +1,6 @@
 const Hapi = require("@hapi/hapi");
 const routes = require("./routes");
+const { loadModel } = require("./utils/predict");
 
 const init = async () => {
   const server = Hapi.server({
@@ -12,6 +13,7 @@ const init = async () => {
     },
   });
 
+  loadModel()
   server.route(routes);
 
   await server.start();
