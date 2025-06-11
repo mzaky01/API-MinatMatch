@@ -14,7 +14,7 @@ const registerHandler = async (request, h) => {
       return h
         .response({
           status: "fail",
-          message: "Gagal registrasi. Mohon isi semua field",
+          message: "Registration failed. Please fill in all fields.",
         })
         .code(400);
     }
@@ -23,7 +23,7 @@ const registerHandler = async (request, h) => {
       return h
         .response({
           status: "fail",
-          message: "Format email tidak valid",
+          message: "Invalid email format.",
         })
         .code(400);
     }
@@ -32,7 +32,7 @@ const registerHandler = async (request, h) => {
       return h
         .response({
           status: "fail",
-          message: "Password minimal 6 karakter",
+          message: "Password must be at least 6 characters.",
         })
         .code(400);
     }
@@ -42,7 +42,7 @@ const registerHandler = async (request, h) => {
       return h
         .response({
           status: "fail",
-          message: "Gagal registrasi. Email sudah terdaftar",
+          message: "Registration failed. Email is already registered.",
         })
         .code(400);
     }
@@ -60,7 +60,7 @@ const registerHandler = async (request, h) => {
     return h
       .response({
         status: "success",
-        message: "Registrasi berhasil",
+        message: "Registration successful.",
       })
       .code(201);
   } catch (error) {
@@ -68,7 +68,7 @@ const registerHandler = async (request, h) => {
     return h
       .response({
         status: "error",
-        message: "Terjadi kesalahan pada server",
+        message: "Server error occurred.",
       })
       .code(500);
   }
@@ -82,7 +82,7 @@ const loginHandler = async (request, h) => {
       return h
         .response({
           status: "fail",
-          message: "Gagal login. Mohon isi email dan password",
+          message: "Login failed. Please provide email and password.",
         })
         .code(400);
     }
@@ -92,7 +92,7 @@ const loginHandler = async (request, h) => {
       return h
         .response({
           status: "fail",
-          message: "Email atau password salah",
+          message: "Incorrect email or password.",
         })
         .code(401);
     }
@@ -102,7 +102,7 @@ const loginHandler = async (request, h) => {
       return h
         .response({
           status: "fail",
-          message: "Email atau password salah",
+          message: "Incorrect email or password.",
         })
         .code(401);
     }
@@ -122,7 +122,7 @@ const loginHandler = async (request, h) => {
     return h
       .response({
         status: "error",
-        message: "Terjadi kesalahan pada server",
+        message: "Server error occurred.",
       })
       .code(500);
   }

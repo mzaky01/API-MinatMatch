@@ -5,7 +5,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const authMiddleware = (request, h) => {
   const authHeader = request.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    throw Boom.unauthorized("Akses ditolak. Format token tidak sesuai");
+    throw Boom.unauthorized("Access denied. Invalid token format.");
   }
   const token = authHeader.split(" ")[1];
   try {
@@ -13,7 +13,7 @@ const authMiddleware = (request, h) => {
     request.auth = decoded;
     return h.continue;
   } catch {
-    throw Boom.unauthorized("Token tidak valid");
+    throw Boom.unauthorized("Invalid token.");
   }
 };
 

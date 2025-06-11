@@ -9,14 +9,14 @@ const changePasswordHandler = async (request, h) => {
     if (!oldPassword || !newPassword) {
       return h.response({
         status: "fail",
-        message: "Mohon isi password lama dan password baru",
+        message: "Please provide old and new password.",
       }).code(400);
     }
 
     if (newPassword.length < 6) {
       return h.response({
         status: "fail",
-        message: "Password baru minimal 6 karakter",
+        message: "New password must be at least 6 characters.",
       }).code(400);
     }
 
@@ -24,7 +24,7 @@ const changePasswordHandler = async (request, h) => {
     if (!user) {
       return h.response({
         status: "fail",
-        message: "User tidak ditemukan",
+        message: "User not found.",
       }).code(404);
     }
 
@@ -32,7 +32,7 @@ const changePasswordHandler = async (request, h) => {
     if (!isValidOldPassword) {
       return h.response({
         status: "fail",
-        message: "Password lama salah",
+        message: "Old password is incorrect.",
       }).code(401);
     }
 
@@ -41,13 +41,13 @@ const changePasswordHandler = async (request, h) => {
 
     return h.response({
       status: "success",
-      message: "Password berhasil diubah",
+      message: "Password changed successfully.",
     }).code(200);
   } catch (error) {
     console.error("Error in changePasswordHandler:", error);
     return h.response({
       status: "error",
-      message: "Terjadi kesalahan pada server",
+      message: "Server error occurred.",
     }).code(500);
   }
 };
@@ -59,7 +59,7 @@ const getProfileHandler = async (request, h) => {
     if (!user) {
       return h.response({
         status: "fail",
-        message: "User tidak ditemukan",
+        message: "User not found.",
       }).code(404);
     }
     let profilePic = null;
@@ -78,7 +78,7 @@ const getProfileHandler = async (request, h) => {
     console.error("Error in getProfileHandler:", error);
     return h.response({
       status: "error",
-      message: "Terjadi kesalahan pada server",
+      message: "Server error occurred.",
     }).code(500);
   }
 };
@@ -92,13 +92,13 @@ const editProfileHandler = async (request, h) => {
     if (!name || !email) {
       return h.response({
         status: "fail",
-        message: "Nama dan email wajib diisi",
+        message: "Name and email are required.",
       }).code(400);
     }
     if (!/^\S+@\S+\.\S+$/.test(email)) {
       return h.response({
         status: "fail",
-        message: "Format email tidak valid",
+        message: "Invalid email format.",
       }).code(400);
     }
 
@@ -106,7 +106,7 @@ const editProfileHandler = async (request, h) => {
     if (emailUsed) {
       return h.response({
         status: "fail",
-        message: "Email sudah digunakan user lain",
+        message: "Email is already used by another user.",
       }).code(400);
     }
 
@@ -122,7 +122,7 @@ const editProfileHandler = async (request, h) => {
     if (!user) {
       return h.response({
         status: "fail",
-        message: "User tidak ditemukan",
+        message: "User not found.",
       }).code(404);
     }
 
@@ -133,7 +133,7 @@ const editProfileHandler = async (request, h) => {
 
     return h.response({
       status: "success",
-      message: "Profil berhasil diubah",
+      message: "Profile updated successfully.",
       data: {
         name: user.name,
         email: user.email,
@@ -144,7 +144,7 @@ const editProfileHandler = async (request, h) => {
     console.error("Error in editProfileHandler:", error);
     return h.response({
       status: "error",
-      message: "Terjadi kesalahan pada server",
+      message: "Server error occurred.",
     }).code(500);
   }
 };
@@ -157,7 +157,7 @@ const deleteAccountHandler = async (request, h) => {
     if (!user) {
       return h.response({
         status: "fail",
-        message: "User tidak ditemukan",
+        message: "User not found.",
       }).code(404);
     }
 
@@ -165,13 +165,13 @@ const deleteAccountHandler = async (request, h) => {
     await Prediction.deleteMany({ userId });
     return h.response({
       status: "success",
-      message: "Akun berhasil dihapus beserta semua datanya",
+      message: "Account and all related data deleted successfully.",
     }).code(200);
   } catch (error) {
     console.error("Error in deleteAccountHandler:", error);
     return h.response({
       status: "error",
-      message: "Terjadi kesalahan pada server",
+      message: "Server error occurred.",
     }).code(500);
   }
 };

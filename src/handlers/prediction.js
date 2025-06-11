@@ -19,7 +19,7 @@ const deletePredictionHistoryHandler = async (request, h) => {
       return h.response({ status: "fail", message: "Unauthorized" }).code(401);
     }
     await Prediction.deleteMany({ userId: request.auth.userId });
-    return h.response({ status: "success", message: "Riwayat prediksi berhasil dihapus" }).code(200);
+    return h.response({ status: "success", message: "Prediction history deleted successfully" }).code(200);
   } catch (err) {
     console.error("Error in deletePredictionHistoryHandler:", err);
     return h.response({ status: "error", message: "Server error" }).code(500);
@@ -34,9 +34,9 @@ const deletePredictionByIdHandler = async (request, h) => {
     const { id } = request.params;
     const deleted = await Prediction.findOneAndDelete({ _id: id, userId: request.auth.userId });
     if (!deleted) {
-      return h.response({ status: "fail", message: "Data tidak ditemukan atau bukan milik Anda" }).code(404);
+      return h.response({ status: "fail", message: "Data not found or not owned by you" }).code(404);
     }
-    return h.response({ status: "success", message: "Prediksi berhasil dihapus" }).code(200);
+    return h.response({ status: "success", message: "Prediction deleted successfully" }).code(200);
   } catch (err) {
     console.error("Error in deletePredictionByIdHandler:", err);
     return h.response({ status: "error", message: "Server error" }).code(500);
